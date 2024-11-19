@@ -1,0 +1,381 @@
+
+
+
+SQL> alter user raju identified by raju;
+
+User altered.
+
+SQL> exit
+Disconnected from Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+[oracle@raju ~]$ sqlplus raju/raju
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Tue Nov 19 13:09:38 2024
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+Last Successful login time: Mon Nov 18 2024 09:44:15 +05:30
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL>
+SQL>
+SQL> exit
+Disconnected from Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+[oracle@raju ~]$ sqlplus / as sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Tue Nov 19 13:10:55 2024
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL> desc dba_profiles
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PROFILE                                   NOT NULL VARCHAR2(128)
+ RESOURCE_NAME                             NOT NULL VARCHAR2(32)
+ RESOURCE_TYPE                                      VARCHAR2(8)
+ LIMIT                                              VARCHAR2(128)
+ COMMON                                             VARCHAR2(3)
+ INHERITED                                          VARCHAR2(3)
+ IMPLICIT                                           VARCHAR2(3)
+
+
+
+SQL>  select profile,resource_name,limit from dba_profiles;
+
+SQL> set lines 200 ;
+set pages 200;
+col profile for a32;
+col resource_name for a50;
+col limit for a50;
+SQL>
+
+SQL> /
+
+PROFILE                          RESOURCE_NAME                                      LIMIT
+-------------------------------- -------------------------------------------------- --------------------------------------------------
+DEFAULT                          COMPOSITE_LIMIT                                    UNLIMITED
+ORA_STIG_PROFILE                 COMPOSITE_LIMIT                                    DEFAULT
+APP_PROFILE                      COMPOSITE_LIMIT                                    UNLIMITED
+DEFAULT                          SESSIONS_PER_USER                                  UNLIMITED
+ORA_STIG_PROFILE                 SESSIONS_PER_USER                                  DEFAULT
+APP_PROFILE                      SESSIONS_PER_USER                                  1
+DEFAULT                          CPU_PER_SESSION                                    UNLIMITED
+ORA_STIG_PROFILE                 CPU_PER_SESSION                                    DEFAULT
+APP_PROFILE                      CPU_PER_SESSION                                    UNLIMITED
+DEFAULT                          CPU_PER_CALL                                       UNLIMITED
+ORA_STIG_PROFILE                 CPU_PER_CALL                                       DEFAULT
+APP_PROFILE                      CPU_PER_CALL                                       UNLIMITED
+DEFAULT                          LOGICAL_READS_PER_SESSION                          UNLIMITED
+ORA_STIG_PROFILE                 LOGICAL_READS_PER_SESSION                          DEFAULT
+APP_PROFILE                      LOGICAL_READS_PER_SESSION                          UNLIMITED
+DEFAULT                          LOGICAL_READS_PER_CALL                             UNLIMITED
+ORA_STIG_PROFILE                 LOGICAL_READS_PER_CALL                             DEFAULT
+APP_PROFILE                      LOGICAL_READS_PER_CALL                             UNLIMITED
+DEFAULT                          IDLE_TIME                                          UNLIMITED
+ORA_STIG_PROFILE                 IDLE_TIME                                          15
+APP_PROFILE                      IDLE_TIME                                          1
+DEFAULT                          CONNECT_TIME                                       UNLIMITED
+ORA_STIG_PROFILE                 CONNECT_TIME                                       DEFAULT
+APP_PROFILE                      CONNECT_TIME                                       3
+DEFAULT                          PRIVATE_SGA                                        UNLIMITED
+ORA_STIG_PROFILE                 PRIVATE_SGA                                        DEFAULT
+APP_PROFILE                      PRIVATE_SGA                                        UNLIMITED
+DEFAULT                          FAILED_LOGIN_ATTEMPTS                              10
+ORA_STIG_PROFILE                 FAILED_LOGIN_ATTEMPTS                              3
+APP_PROFILE                      FAILED_LOGIN_ATTEMPTS                              2
+DEFAULT                          PASSWORD_LIFE_TIME                                 180
+ORA_STIG_PROFILE                 PASSWORD_LIFE_TIME                                 60
+APP_PROFILE                      PASSWORD_LIFE_TIME                                 180
+DEFAULT                          PASSWORD_REUSE_TIME                                UNLIMITED
+ORA_STIG_PROFILE                 PASSWORD_REUSE_TIME                                365
+APP_PROFILE                      PASSWORD_REUSE_TIME                                UNLIMITED
+DEFAULT                          PASSWORD_REUSE_MAX                                 UNLIMITED
+ORA_STIG_PROFILE                 PASSWORD_REUSE_MAX                                 10
+APP_PROFILE                      PASSWORD_REUSE_MAX                                 UNLIMITED
+DEFAULT                          PASSWORD_VERIFY_FUNCTION                           NULL
+ORA_STIG_PROFILE                 PASSWORD_VERIFY_FUNCTION                           ORA12C_STIG_VERIFY_FUNCTION
+APP_PROFILE                      PASSWORD_VERIFY_FUNCTION                           NULL
+DEFAULT                          PASSWORD_LOCK_TIME                                 1
+ORA_STIG_PROFILE                 PASSWORD_LOCK_TIME                                 UNLIMITED
+APP_PROFILE                      PASSWORD_LOCK_TIME                                 UNLIMITED
+DEFAULT                          PASSWORD_GRACE_TIME                                7
+ORA_STIG_PROFILE                 PASSWORD_GRACE_TIME                                5
+APP_PROFILE                      PASSWORD_GRACE_TIME                                UNLIMITED
+DEFAULT                          INACTIVE_ACCOUNT_TIME                              UNLIMITED
+ORA_STIG_PROFILE                 INACTIVE_ACCOUNT_TIME                              35
+APP_PROFILE                      INACTIVE_ACCOUNT_TIME                              DEFAULT
+
+51 rows selected.
+
+SQL> set lines 200 ;
+set pages 200;
+col profile for a32;
+col resource_name for a50;
+col limit for a50;
+
+SQL> show user
+USER is "SYS"
+SQL> exit
+
+[oracle@raju ~]$ sqlplus raju/raju
+
+
+SQL> create profile raju_profile limit password_life_time 365;
+
+Profile created.
+
+SQL> alter user raju profile raju_profile;
+
+User altered.
+
+SQL>
+SQL>
+SQL>
+SQL> desc dba_profiles;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PROFILE                                   NOT NULL VARCHAR2(128)
+ RESOURCE_NAME                             NOT NULL VARCHAR2(32)
+ RESOURCE_TYPE                                      VARCHAR2(8)
+ LIMIT                                              VARCHAR2(128)
+ COMMON                                             VARCHAR2(3)
+ INHERITED                                          VARCHAR2(3)
+ IMPLICIT                                           VARCHAR2(3)
+
+SQL> select profile,resource_name,limit from dba_profiles;
+SQL> set lines 200 ;
+set pages 200;
+col profile for a32;
+col resource_name for a50;
+col limit for a50;
+SQL> /
+
+PROFILE                          RESOURCE_NAME                                      LIMIT
+-------------------------------- -------------------------------------------------- --------------------------------------------------
+DEFAULT                          COMPOSITE_LIMIT                                    UNLIMITED
+ORA_STIG_PROFILE                 COMPOSITE_LIMIT                                    DEFAULT
+APP_PROFILE                      COMPOSITE_LIMIT                                    UNLIMITED
+RAJU_PROFILE                     COMPOSITE_LIMIT                                    DEFAULT
+DEFAULT                          SESSIONS_PER_USER                                  UNLIMITED
+ORA_STIG_PROFILE                 SESSIONS_PER_USER                                  DEFAULT
+APP_PROFILE                      SESSIONS_PER_USER                                  1
+RAJU_PROFILE                     SESSIONS_PER_USER                                  DEFAULT
+DEFAULT                          CPU_PER_SESSION                                    UNLIMITED
+ORA_STIG_PROFILE                 CPU_PER_SESSION                                    DEFAULT
+APP_PROFILE                      CPU_PER_SESSION                                    UNLIMITED
+RAJU_PROFILE                     CPU_PER_SESSION                                    DEFAULT
+DEFAULT                          CPU_PER_CALL                                       UNLIMITED
+ORA_STIG_PROFILE                 CPU_PER_CALL                                       DEFAULT
+APP_PROFILE                      CPU_PER_CALL                                       UNLIMITED
+RAJU_PROFILE                     CPU_PER_CALL                                       DEFAULT
+DEFAULT                          LOGICAL_READS_PER_SESSION                          UNLIMITED
+ORA_STIG_PROFILE                 LOGICAL_READS_PER_SESSION                          DEFAULT
+APP_PROFILE                      LOGICAL_READS_PER_SESSION                          UNLIMITED
+RAJU_PROFILE                     LOGICAL_READS_PER_SESSION                          DEFAULT
+DEFAULT                          LOGICAL_READS_PER_CALL                             UNLIMITED
+ORA_STIG_PROFILE                 LOGICAL_READS_PER_CALL                             DEFAULT
+APP_PROFILE                      LOGICAL_READS_PER_CALL                             UNLIMITED
+RAJU_PROFILE                     LOGICAL_READS_PER_CALL                             DEFAULT
+DEFAULT                          IDLE_TIME                                          UNLIMITED
+ORA_STIG_PROFILE                 IDLE_TIME                                          15
+APP_PROFILE                      IDLE_TIME                                          1
+RAJU_PROFILE                     IDLE_TIME                                          DEFAULT
+DEFAULT                          CONNECT_TIME                                       UNLIMITED
+ORA_STIG_PROFILE                 CONNECT_TIME                                       DEFAULT
+APP_PROFILE                      CONNECT_TIME                                       3
+RAJU_PROFILE                     CONNECT_TIME                                       DEFAULT
+DEFAULT                          PRIVATE_SGA                                        UNLIMITED
+ORA_STIG_PROFILE                 PRIVATE_SGA                                        DEFAULT
+APP_PROFILE                      PRIVATE_SGA                                        UNLIMITED
+RAJU_PROFILE                     PRIVATE_SGA                                        DEFAULT
+DEFAULT                          FAILED_LOGIN_ATTEMPTS                              10
+ORA_STIG_PROFILE                 FAILED_LOGIN_ATTEMPTS                              3
+APP_PROFILE                      FAILED_LOGIN_ATTEMPTS                              2
+RAJU_PROFILE                     FAILED_LOGIN_ATTEMPTS                              DEFAULT
+DEFAULT                          PASSWORD_LIFE_TIME                                 180
+ORA_STIG_PROFILE                 PASSWORD_LIFE_TIME                                 60
+APP_PROFILE                      PASSWORD_LIFE_TIME                                 180
+RAJU_PROFILE                     PASSWORD_LIFE_TIME                                 365
+DEFAULT                          PASSWORD_REUSE_TIME                                UNLIMITED
+ORA_STIG_PROFILE                 PASSWORD_REUSE_TIME                                365
+APP_PROFILE                      PASSWORD_REUSE_TIME                                UNLIMITED
+RAJU_PROFILE                     PASSWORD_REUSE_TIME                                DEFAULT
+DEFAULT                          PASSWORD_REUSE_MAX                                 UNLIMITED
+ORA_STIG_PROFILE                 PASSWORD_REUSE_MAX                                 10
+APP_PROFILE                      PASSWORD_REUSE_MAX                                 UNLIMITED
+RAJU_PROFILE                     PASSWORD_REUSE_MAX                                 DEFAULT
+DEFAULT                          PASSWORD_VERIFY_FUNCTION                           NULL
+ORA_STIG_PROFILE                 PASSWORD_VERIFY_FUNCTION                           ORA12C_STIG_VERIFY_FUNCTION
+APP_PROFILE                      PASSWORD_VERIFY_FUNCTION                           NULL
+RAJU_PROFILE                     PASSWORD_VERIFY_FUNCTION                           DEFAULT
+DEFAULT                          PASSWORD_LOCK_TIME                                 1
+ORA_STIG_PROFILE                 PASSWORD_LOCK_TIME                                 UNLIMITED
+APP_PROFILE                      PASSWORD_LOCK_TIME                                 UNLIMITED
+RAJU_PROFILE                     PASSWORD_LOCK_TIME                                 DEFAULT
+DEFAULT                          PASSWORD_GRACE_TIME                                7
+ORA_STIG_PROFILE                 PASSWORD_GRACE_TIME                                5
+APP_PROFILE                      PASSWORD_GRACE_TIME                                UNLIMITED
+RAJU_PROFILE                     PASSWORD_GRACE_TIME                                DEFAULT
+DEFAULT                          INACTIVE_ACCOUNT_TIME                              UNLIMITED
+ORA_STIG_PROFILE                 INACTIVE_ACCOUNT_TIME                              35
+APP_PROFILE                      INACTIVE_ACCOUNT_TIME                              DEFAULT
+RAJU_PROFILE                     INACTIVE_ACCOUNT_TIME                              DEFAULT
+
+68 rows selected.
+
+SQL>  select profile,resource_name,limit from dba_profiles where profile='RAJU_PROFILE';
+
+PROFILE                          RESOURCE_NAME                                      LIMIT
+-------------------------------- -------------------------------------------------- --------------------------------------------------
+RAJU_PROFILE                     COMPOSITE_LIMIT                                    DEFAULT
+RAJU_PROFILE                     SESSIONS_PER_USER                                  DEFAULT
+RAJU_PROFILE                     CPU_PER_SESSION                                    DEFAULT
+RAJU_PROFILE                     CPU_PER_CALL                                       DEFAULT
+RAJU_PROFILE                     LOGICAL_READS_PER_SESSION                          DEFAULT
+RAJU_PROFILE                     LOGICAL_READS_PER_CALL                             DEFAULT
+RAJU_PROFILE                     IDLE_TIME                                          DEFAULT
+RAJU_PROFILE                     CONNECT_TIME                                       DEFAULT
+RAJU_PROFILE                     PRIVATE_SGA                                        DEFAULT
+RAJU_PROFILE                     FAILED_LOGIN_ATTEMPTS                              DEFAULT
+RAJU_PROFILE                     PASSWORD_LIFE_TIME                                 365
+RAJU_PROFILE                     PASSWORD_REUSE_TIME                                DEFAULT
+RAJU_PROFILE                     PASSWORD_REUSE_MAX                                 DEFAULT
+RAJU_PROFILE                     PASSWORD_VERIFY_FUNCTION                           DEFAULT
+RAJU_PROFILE                     PASSWORD_LOCK_TIME                                 DEFAULT
+RAJU_PROFILE                     PASSWORD_GRACE_TIME                                DEFAULT
+RAJU_PROFILE                     INACTIVE_ACCOUNT_TIME                              DEFAULT
+
+17 rows selected.
+SQL> exit
+SQL> grant dba to raju;
+
+Grant succeeded.
+
+SQL> desc role_role_privs
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLE                                               VARCHAR2(128)
+ GRANTED_ROLE                                       VARCHAR2(128)
+ ADMIN_OPTION                                       VARCHAR2(3)
+ COMMON                                             VARCHAR2(3)
+ INHERITED                                          VARCHAR2(3)
+
+SQL> select role from role_role_privs;
+
+ROLE
+--------------------------------------------------------------------------------
+RECOVERY_CATALOG_OWNER_VPD
+GSMADMIN_ROLE
+RECOVERY_CATALOG_OWNER_VPD
+DBA
+EXP_FULL_DATABASE
+GSMROOTUSER_ROLE
+SYSUMF_ROLE
+SELECT_CATALOG_ROLE
+GSMUSER_ROLE
+GSMADMIN_ROLE
+EXP_FULL_DATABASE
+
+ROLE
+--------------------------------------------------------------------------------
+DATAPUMP_IMP_FULL_DATABASE
+DBA
+DBA
+EXECUTE_CATALOG_ROLE
+HS_ADMIN_ROLE
+DBA
+RESOURCE
+DBA
+DBA
+GSMUSER_ROLE
+DBA
+
+ROLE
+--------------------------------------------------------------------------------
+IMP_FULL_DATABASE
+LOGSTDBY_ADMINISTRATOR
+DATAPUMP_EXP_FULL_DATABASE
+DBA
+DBA
+GSMADMIN_ROLE
+GSM_POOLADMIN_ROLE
+DBA
+IMP_FULL_DATABASE
+DATAPUMP_IMP_FULL_DATABASE
+OEM_MONITOR
+
+ROLE
+--------------------------------------------------------------------------------
+DBA
+DBA
+EM_EXPRESS_ALL
+DBA
+HS_ADMIN_ROLE
+DBA
+EM_EXPRESS_BASIC
+DBA
+JAVASYSPRIV
+DBA
+DBA
+SQL> grant connect,resource to raju;
+
+Grant succeeded.
+
+SQL> revoke connect,resource from raju;
+
+Revoke succeeded.
+
+SQL> exit
+
+
+SQL> exit
+Disconnected from Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+[oracle@raju ~]$ sqlplus / as sysdba
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL> revoke dba from raju;
+
+Revoke succeeded.
+
+SQL> exit
+Disconnected from Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+[oracle@raju ~]$ sqlplus / as sysdba
+
+
+
+
+SQL> exit
+
+[oracle@raju ~]$ sqlplus raju/raju
+
+
+Connected to:
+
+SQL> exit
+
+[oracle@raju ~]$ sqlplus / as sysdba
+
+
+Connected to:
+
+SQL> revoke sysdba from raju;
+
+Revoke succeeded.
+
